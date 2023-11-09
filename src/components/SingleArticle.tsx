@@ -14,8 +14,8 @@ const SingleArticle = ({ article }: { article: Result }) => {
             />
             <Card.Body>
                <Card.Title>{article.title}</Card.Title>
-               <Card.Text>{article.summary}</Card.Text>
-               <Link to={"article/" + article.id}>Go somewhere</Link>
+               {/* <Card.Text>{article.summary}</Card.Text> */}
+               <Link to={"article/" + article.id}>Read more</Link>
             </Card.Body>
          </Card>
       </Col>

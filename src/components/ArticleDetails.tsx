@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { ArticleDetailsInfo } from "./interfaces/articleInterface";
+import Image from "react-bootstrap/Image";
 
 type ArticleComponentParams = {
    id: string;
@@ -10,9 +11,7 @@ type ArticleComponentParams = {
 const ArticleDetails = () => {
    const params = useParams<ArticleComponentParams>();
    console.log("this is path: ", params.id);
-   const [articleDetails, setArticleDetails] = useState<ArticleDetailsInfo[]>(
-      []
-   );
+   const [articleDetails, setArticleDetails] = useState<ArticleDetailsInfo>();
 
    useEffect(() => {
       fetch("https://api.spaceflightnewsapi.net/v4/articles/" + params.id)
@@ -24,17 +23,24 @@ const ArticleDetails = () => {
          })
          .then((data) => {
             console.log("article details retreaved!", data);
+            setArticleDetails(data);
          });
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
+
+   console.log("this is setted data: ", articleDetails);
    return (
       <>
          <Container>
             <Row>
-               <Col>
-                  <h1></h1>
-                  <Image> </Image>
-               </Col>
+               {articleDetails && (
+                  <Col>
+                     <h1>{articleDetails.title}</h1>
+                     <Image src={articleDetails?.image_url} fluid />
+                     <p>{articleDetails.summary}</p>
+                     <Link to="/">Home</Link>
+                  </Col>
+               )}
             </Row>
          </Container>
       </>
